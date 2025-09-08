@@ -24,16 +24,19 @@ int main(int argc, char **argv ){
     // string so that program can 
     //distinguish between '?' and ':' 
     int n_processes = 1;
+    long int CPU_intensive_max = ( (long)INT_MAX << 2);
 
-    while((opt = getopt(argc, argv, ":n:")) != -1) 
+    while((opt = getopt(argc, argv, ":n:v:")) != -1) 
     { 
         switch(opt) 
         { 
             case 'n': 
                 n_processes = atoi( optarg );
-
                 // printf("filename: %s\n", optarg); 
-                break; 
+                break;
+            case 'v':
+                CPU_intensive_max = atol( optarg );
+                break;
             case ':': 
 
                 printf("option needs a value\n"); 
@@ -46,6 +49,7 @@ int main(int argc, char **argv ){
     }
 
     fprintf( stdout , "\nNumber of processes to create: %d", n_processes);
+    fprintf( stdout , "\nMax value: %ld", CPU_intensive_max );
 
     fflush( stdout ); 
 
@@ -91,7 +95,7 @@ int main(int argc, char **argv ){
 
             //syslog(LOG_INFO, "\n[Child %d] PID: %d", i, pid);
 
-            CPU_intensive( ( (long)INT_MAX << 2) );
+            CPU_intensive( CPU_intensive_max );
             exit( 0 );
 
         }        
