@@ -14,6 +14,8 @@
 #include <limits.h>
 #include <string.h>
 
+#include <time.h>
+
 #include <cpu_stress/cpu_stress.h>
 
 int main(int argc, char **argv ){
@@ -91,13 +93,19 @@ int main(int argc, char **argv ){
             retval = prctl( PR_SET_NAME, pname );
 
             openlog(pname, LOG_PID, LOG_DAEMON);
-            syslog(LOG_INFO, "Daemon started.");
+            syslog(LOG_INFO, "Daemon started");
+
+            float t_before = clock();        
 
             //syslog(LOG_INFO, "\n[Child %d] PID: %d", i, pid);
 
             CPU_intensive( CPU_intensive_max );
-            exit( 0 );
 
+            float t_after = clock();
+
+            float exec_time = (t_after - t_before)/CLOCKS_PER_SEC;
+
+            syslog(LOG_INFO, "Daemon ended. Total execution time: %.6f", exec_time);
         }        
     
     }
