@@ -17,7 +17,7 @@ VPATH = src src/cpu_stress
 
 HEADERS = $(shell find include -name \*.h )
 
-$(info $(HEADERS) )
+# $(info $(HEADERS) )
 
 %.o: %.c $(HEADERS)
 	$(CC) $(ALL_CFLAGS) -c $< -o $@
@@ -30,7 +30,7 @@ cpu_stress: $(OBJ_CPU_stress)
 
 .PHONY: all clean 
 
-all: setsched cpu_stress
+all: cpu_stress setsched
 
 clean:
-	rm -f *.o $(BIN_setsched) $(BIN_CPU_stress)
+	rm -f *.o *.out $(BIN_setsched) $(BIN_CPU_stress)
